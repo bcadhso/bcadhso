@@ -3,6 +3,24 @@
 <HEAD>
 
 <TITLE>pugachev_kirill_part1_01</TITLE> 
+<script type="text/javascript" src = "d3.min.js"></script>
+<style>
+    .node circle 
+    {
+    	fill: #fff;
+        stroke: DeepSkyBlue;
+        stroke-width: 2px;
+    }
+
+    .node text { font: 12px sans-serif; }
+
+    .link 
+    {
+        fill: none;
+        stroke: #1C1C1C;
+        stroke-width: 2px;
+    }
+</style>
 
 <script language="JavaScript"> 
 
@@ -34,10 +52,7 @@ function main(obj)
  else 
  {
   //alert(postfix_notaion); 
-  /*while(postfix_notaion.lenght > 0)
-  {
-   out_str = out_str + postfix_notaion.pop() + ", ";    
-  }  */
+  create_graph();
   form1.fres.value = out_str;
  }
 }
@@ -139,21 +154,21 @@ function get_number()
 function create_graph()
 {
  var treeData = [];
- stack = [];
- for (var i = 0; i < out.length; i++) 
+ var stack = [];
+ for (var i = 0; i < postfix_notaion.length; i++) 
  {
-  if (out[i] == '+' || out[i] == '-' || out[i] == '*' || out[i] == '/' || out[i] == '^') 
+  if (postfix_notaion[i] == '+' || postfix_notaion[i] == '-' || postfix_notaion[i] == '*' || postfix_notaion[i] == '/') 
   {
    var node2 = stack.pop();
    var node1 = stack.pop();
-   var node_root = {name: out[i], children:[]};
+   var node_root = {name: postfix_notaion[i], children:[]};
    node_root.children.push(node1);
    node_root.children.push(node2);
    stack.push(node_root);
   } 
   else 
   {
-    var node = {name: out[i], children:[]};
+    var node = {name: postfix_notaion[i], children:[]};
 	stack.push(node);
   }
  }
@@ -161,7 +176,7 @@ function create_graph()
  var node_tree = stack[0];
 	
  d3.select("svg").remove();
- if (flag == false) 
+ if (error == false) 
   treeData = [];
  else 
   treeData[0] = node_tree;
