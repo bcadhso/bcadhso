@@ -78,7 +78,8 @@ function parse()
   var h = ch;
   ch = get_char(); 
   postterm();
-  out_str += h;  
+  out_str += h;
+  alert("push(+/-):"+h);
   postfix_notaion.push(h); 
  }
 }
@@ -93,6 +94,7 @@ function postterm()
   ch = get_char(); 
   postmn();
   out_str += h;
+  alert("push(*//):"+h);
   postfix_notaion.push(h); 
  } 
 }
@@ -136,7 +138,8 @@ function get_variable()
   ch = get_char (); 
  }
  out_str += variable;
- postfix_notaion.push(ch);
+ alert("push(variable):"+variable);
+ postfix_notaion.push(variable);
 }
 
 function get_number()
@@ -147,8 +150,9 @@ function get_number()
   number += ch;
   ch = get_char (); 
  }
- out_str += number; 
- postfix_notaion.push(ch); 
+ out_str += number;
+ alert("push(number):"+number);
+ postfix_notaion.push(number); 
 }
 
 function create_graph()
@@ -164,6 +168,7 @@ function create_graph()
    var node_root = {name: postfix_notaion[i], children:[]};
    node_root.children.push(node1);
    node_root.children.push(node2);
+   alert("parent__" + node_root.name + "__|__ch1__" + node_root.children[0].name + "__|__ch2__" + node_root.children[1].name + "__|");
    stack.push(node_root);
   } 
   else 
