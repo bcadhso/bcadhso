@@ -78,8 +78,8 @@ function parse()
   var h = ch;
   ch = get_char(); 
   postterm();
-  out_str += h;
-  alert("push(+/-):"+h);
+  out_str += h + " ";
+  //alert("push(+/-):"+h);
   postfix_notaion.push(h); 
  }
 }
@@ -88,13 +88,13 @@ function postterm()
 { 
  postmn()
 
- while (ch == '*' || ch == '/') 
+ while (ch == '*' || ch == '/' || ch == '^') 
  {
   var h = ch;
   ch = get_char(); 
   postmn();
-  out_str += h;
-  alert("push(*//):"+h);
+  out_str += h + " ";
+  //alert("push(*//):"+h);
   postfix_notaion.push(h); 
  } 
 }
@@ -123,7 +123,7 @@ function postmn()
   }
   else
   {
-   alert("shit");  
+   //alert("shit");  
    error = true; 
   }  
  } 
@@ -137,8 +137,8 @@ function get_variable()
   variable += ch;
   ch = get_char (); 
  }
- out_str += variable;
- alert("push(variable):"+variable);
+ out_str += variable + " ";
+ //alert("push(variable):"+variable);
  postfix_notaion.push(variable);
 }
 
@@ -150,8 +150,8 @@ function get_number()
   number += ch;
   ch = get_char (); 
  }
- out_str += number;
- alert("push(number):"+number);
+ out_str += number + " ";
+ //alert("push(number):"+number);
  postfix_notaion.push(number); 
 }
 
@@ -161,14 +161,14 @@ function create_graph()
  var stack = [];
  for (var i = 0; i < postfix_notaion.length; i++) 
  {
-  if (postfix_notaion[i] == '+' || postfix_notaion[i] == '-' || postfix_notaion[i] == '*' || postfix_notaion[i] == '/') 
+  if (postfix_notaion[i] == "+" || postfix_notaion[i] == "-" || postfix_notaion[i] == "*" || postfix_notaion[i] == "/" || postfix_notaion[i] == "^") 
   {
    var node2 = stack.pop();
    var node1 = stack.pop();
    var node_root = {name: postfix_notaion[i], children:[]};
    node_root.children.push(node1);
    node_root.children.push(node2);
-   alert("parent__" + node_root.name + "__|__ch1__" + node_root.children[0].name + "__|__ch2__" + node_root.children[1].name + "__|");
+   //alert("parent__" + node_root.name + "__|__ch1__" + node_root.children[0].name + "__|__ch2__" + node_root.children[1].name + "__|");
    stack.push(node_root);
   } 
   else 
@@ -181,10 +181,7 @@ function create_graph()
  var node_tree = stack[0];
 	
  d3.select("svg").remove();
- if (error == false) 
-  treeData = [];
- else 
-  treeData[0] = node_tree;
+ treeData[0] = node_tree;
 
 // ************** Generate the tree diagram	 *****************
  var margin = {top: 40, right: 120, bottom: 20, left: 120},
@@ -202,13 +199,13 @@ function create_graph()
 	       .append("g")
 		   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 	 
- root = treeData[0];	  
+ var root = treeData[0];	  
  update(root);
 	 
  function update(source) 
  {	 
    // Compute the new tree layout.
-   var nodes = tree.nodes(root).reverse(),
+   var nodes = tree.nodes(source).reverse(),
 	   links = tree.links(nodes);
 	 
    // Normalize for fixed-depth.
@@ -260,15 +257,13 @@ under constraction
 
 <pre> 
 
-input:  <input type="text" size=25 name="fl">
+input:  <input type="text" size=64 name="fl">
 
-output: <input type="text" size=25 name="fres">
+output: <input type="text" disabled="disabled" size=64 name="fres">
 
 </pre>
 
-<input type="button" value=parse onClick=" main (form1)"> 
-
-<input type="reset" value=clear><HR> 
+<input type="button" value=parse onClick=" main (form1)"> <HR> 
 
 </FORM> 
 
