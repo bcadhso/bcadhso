@@ -6,7 +6,6 @@
 	fclose($f);
 
 
-
 	function f() 
 	{
 		link = 'myserver.ru/hist.php?request="' +...+ '"';
